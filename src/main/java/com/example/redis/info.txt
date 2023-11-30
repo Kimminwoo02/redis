@@ -1,0 +1,115 @@
+[Redis]
+ Remote Dictionbary Storage
+ - 메모리 기반의 데이터 저장소이고 휘발성
+ - 메모리에 저장하므로 빠름
+ - 싱글쓰레드
+ - key - value 형식으로 저장
+
+
+ 1. Redis에서 사용할 수 있는 데이터타입
+    1) Strings : 1:1로 처리할 수 있는 데이터
+    2) Lists
+        순서가 있는 데이터 집합
+
+    3) Json
+    4) Sets
+        순서와 관계없이 데이터를 관리
+        중복불가능
+        Redis에서는 Set에 저장된 값들을 멤버라 부른다.
+        여러 개의 멤버가 모여서 집합을 구성
+        메소드)
+        - sadd : set에 데이터를 추가하는 작업
+        [문법]
+        sadd key value
+        sadd key value1 value2 value3 ...
+
+        - scard : set에 저장된 요소들의 갯수를 리턴
+        [문법]
+        scard key
+
+        - smembers : 지정한 키에 저장된 모든 요소를 출력
+         [문법]
+         smember key
+
+        - sismember : 해당 멤버가 지정한 키에 해당하는 set에 있는지 여부를 검사
+            [문법]
+            => sismember 찾고싶은 요소
+            -> 해당요소가 set에 저장되어 있으면 1을 반환하고 없으면 0을 반환
+
+
+        -srem : set에 있는 요소중 지정한 요소가 존재하면 그 요소를 삭제한다.
+            [문법]
+            => srem 지우고싶은 요소
+
+
+    5) Sorted Set
+        Set과 동일한 순서를 관리
+        Score 라는 개념이 존재하고 소트된 데이터로 접근할 수 있다.
+
+    6) Hashes
+        field와 value가 존재하는 구조, RDBMS의 테이블 개념
+        RDB에 바로 저장하거나 RDB의 캐시를 사용하거나 하는 경우 많이 사용
+
+ 2. Sorted Set(Zset)
+    - 저장된 데이터를 유니크하게 관리하기 위해서 사용
+    - zadd, zcard, zrange, zrangebyscore, zrem, zscore, zrank
+    - 단순 Key,value의 개념은 아니고 redis의 sorted set에서는 Key, Score, Member의 개념이 존재
+        * key : zset을 구분할 수 있는 값 ------> key와 value 값을 가지고 있다.
+        * score : value
+        * member : zset내부의 저장되는 데이터를 구분할 수 있는 키(Member는 유니크)
+
+    - score를 이용해서 zset내부에서 원소들의 순서를 결정
+     1) 메소드
+        zadd
+        - 요소를 sorted set에 저장하는
+        - key는 하나의 zset에 부여되는 구분값
+        - zset은 key value를 갖고 있는 데이터를 관리
+        - key member, value가 score
+        - member는 sorted set에서 요소를 구분하는 값으로 유니크 해야한다.
+        - score를 판단해서 순서를 적용
+
+        [문법]
+        zadd key score member
+                ------ -------
+                  값      sorted set에 저장된 요소를 구분하기 위한 키값
+        zcard :
+        zrange
+            - sorted set 내부에 저장, 정렬된 원소에서 내가 출력하고 싶은 start번호와 stop번호를 정의해서 가져오기
+            - 양수음수 값을 start와 stop에 정의할 수 있다.
+            - 0번 인덱스에 있는 값이 가장 작은 값이다.
+        [문법]
+        zrange key start stop
+
+        zrangebyscore :
+            - 특정 범위에 해당하는 member들을 조회
+
+         [문법]
+         zrangebyscore key minvalue maxvalue
+         1570000원에서 200000원 사이의 값을 가지고 있는 멤버 조회
+
+
+        zrem
+            - 해당 키의 member를 삭제
+            [문법]
+            zrem key member
+
+        zscore :
+            - score set 에서 저장한 member의 값
+            [문법]
+            zscore key member_key
+
+        zrank :
+            - 오름차순으로 정렬된 sorted set에서 지정한 member의 순위
+            [문법]
+            zrank key member_key
+
+spring boot를 이용해서 SortedSet에 저장된 모든 데이터를 조회해서 출력
+-SortedSetController
+-SortedSetService
+
+-/getzsetData
+-RedisTemplate
+
+1. Sorted Set을 구하기
+    (Zset)
+2. 서비스에서 zset의 메소드를 보면서 전체 멤버와 값들의 정보를 조회하기
