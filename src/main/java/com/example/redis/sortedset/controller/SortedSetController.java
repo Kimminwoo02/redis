@@ -5,6 +5,7 @@ import com.example.redis.sortedset.dto.Product;
 import com.example.redis.sortedset.service.SortedSetServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -23,14 +24,9 @@ public class SortedSetController {
 
     }
 
-    @PostMapping("/sortedset")
-    public String createSortedSetValue(@RequestBody Product newProduct) {
-
-        log.info(newProduct.getProductId());
-        log.info(String.valueOf(newProduct.getPrice()));
-        log.info(newProduct.getCategoryId());
-        service.createMember(newProduct);
-        return "ok";
+    @GetMapping("/product")
+    public Set<ZSetOperations.TypedTuple<String>> createSortedSetValue(String key) {
+        return service.getZSetValues(key);
 
     }
 

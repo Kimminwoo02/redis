@@ -16,23 +16,24 @@ public class SortedSetServiceImpl implements SortedSetService {
     private final RedisTemplate template;
 
     // sorted set 에 저장된 모든 값들( )
-    public Set<String> getZSetValues(String key){
+    public Set<ZSetOperations.TypedTuple<String>> getZSetValues(String key){
         ZSetOperations<String,String> zSet = template.opsForZSet();
-        return (Set) zSet.rangeWithScores(key, 0, -1);
+        return  zSet.rangeWithScores(key, 0, -1);
 
     }
 
     @Override
     public void createMember(Product newProduct) {
         ZSetOperations<String,String> zSet = template.opsForZSet();
-        zSet.add(newProduct.getProductId(),newProduct.getCategoryId(), newProduct.getPrice());
+        zSet.add(newProduct.getCategoryId(), newProduct.getProductId(),newProduct.getPrice());
+
     }
 
     @Override
     public int getRank(Product newProduct) {
 
         ZSetOperations<String,String> zSet = template.opsForZSet();
-        return Math.toIntExact(zSet.rank(newProduct.getProductId(), newProduct.getCategoryId()));
+        return Math.toIntExact(zSet.rank(newProduct.getCategoryId(),newProduct.getProductId()));
     }
 
 
