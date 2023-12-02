@@ -69,14 +69,5 @@ class RedisConfigTest {
 
     }
 
-    @Test
-    void examZSet(){
-        ZSetOperations<String, String> stringStringZSetOperations = redisTemplate.opsForZSet();
-        String key  ="fruit";
 
-
-        Set<String> members = set.members(key);
-        System.out.println(members.contains("banana1"));
-
-    }
 }
