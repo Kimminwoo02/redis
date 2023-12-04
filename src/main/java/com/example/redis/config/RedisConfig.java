@@ -10,7 +10,7 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-@Configuration
+//@Configuration
 @RequiredArgsConstructor
 public class RedisConfig {
     private final RedisProperties redisProperties;
@@ -19,7 +19,7 @@ public class RedisConfig {
     // 스프링이 기본으로 제공하는 객체가 아니라 config에서 설정한 정보를 셋팅해서 생성된 RedisTemplate을 이용하겠다고 정의
 
     @Bean
-    @Primary
+    //@Primary
     public RedisTemplate<String,Object> getRedisTemplate(){
         RedisTemplate<String,Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory2());

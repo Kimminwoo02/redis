@@ -8,13 +8,13 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
-@Configuration
-@EnableRedisRepositories
+//@Configuration
+//@EnableRedisRepositories
 // RedisRepository를 사용할 수 있도록 활성화
 
 public class RedisRepositoryConfig {
     @Value("${spring.data.redis.host}")
-    private String host = "192.168.0.5";
+    private String host;
 
     @Value("${spring.data.redis.port}")
     private int port;
