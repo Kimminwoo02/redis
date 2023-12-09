@@ -21,7 +21,6 @@ public class StoreController {
         List<StoreResponseDTO> storeList = service.getStoreFilter(latitude,longitude);
         System.out.println(storeList);
         return storeList;
-
     }
 
     @GetMapping("/getRedisSelect")

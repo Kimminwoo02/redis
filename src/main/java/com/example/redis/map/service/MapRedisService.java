@@ -20,6 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class MapRedisService {
+    private final int LIMIT_TIME = 3 * 60;
+
     private final RedisTemplate<String,String> redisTemplate;
     //store에 저장된 레코드를 json문자열로 변환하고 json문자열로 정의된 store 데이터를
     // dto 객체로 변환하기 위해 ObjectMapper를 사용 -> 싱글톤으로 관리
@@ -28,8 +30,6 @@ public class MapRedisService {
     // service가 실행되기 전에 초기화작업 진행
     // HashOperations이 매번 초기화되지 않고 빈의 라이프사이클에서 한 번만 실행해서
     // 초기화할 수 있도록 작업
-
-
 
     @PostConstruct // Was가 실행되면서 빈의 라이프사이클에 맞춰서 한번만 실행되도록 한다.
     public void init (){
