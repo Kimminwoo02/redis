@@ -260,4 +260,34 @@ spring boot를 이용해서 SortedSet에 저장된 모든 데이터를 조회해
 3. 컨트롤러 정의
 
 
-조회
+Redis 구조
+1. StandAlone
+2. Master - Replica
+3. Sentinel : Master에서 장애가 나면 자동으로 Replica가 Master로 승격 후 Master가 고쳐지면 다시 복구
+4. Cluster : 운영환경에서 가장 좋은 구조.
+ 1.복수개의 Master와 replica가 존재. Sentinel이 따로 없어도 Master가 다운되면 Replica가 Master로 전환.
+ 2. 샤딩을 통해 데이터 부하를 나눌 수 있다.
+
+MemCached와의 차이점
+경쟁 솔루션으로 Memcached가 있다. 대표적인 차이점은 다음과 같다.
+1. DataType
+ Redis : Hash, List, Set, SortedSet, Geo, String
+ MemCached : String
+
+ 2. Thread
+ Redis : Single Thread
+ Memcached : Multi Threads
+
+ 3. Scale
+ Redis : ScaleOut
+ Memcache : Scale Up
+
+ 4. Memory Policy
+ Redis : no Eviction, volatile-Iru, Volatile-ttl, AllKey-random
+ Memcached: LRU
+
+ 5. Persistence
+ Redis : AOF, RDB
+ MemCached : None
+
+
