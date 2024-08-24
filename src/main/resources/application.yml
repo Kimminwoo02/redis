@@ -2,6 +2,9 @@ server:
   port: 9400
 
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   h2:
     console:
       path: /h2-console
@@ -44,3 +47,4 @@ logging:
         type:
           descriptor:
             sql: trace
+
