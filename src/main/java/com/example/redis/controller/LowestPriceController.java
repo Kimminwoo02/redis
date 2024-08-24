@@ -2,6 +2,7 @@ package com.example.redis.controller;
 
 import com.example.redis.service.LowestPriceService;
 import com.example.redis.vo.Product;
+import com.example.redis.vo.ProductGrp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,5 +24,13 @@ public class LowestPriceController {
     public int SetNewProduct(@RequestBody Product newProduct){
         return lowestPriceService.setNewProduct(newProduct);
     }
+
+    @PutMapping("/productGroup")
+    public int SetNewProductGroup(@RequestBody ProductGrp newProductGrp){
+        return lowestPriceService.setNewProductGrp(newProductGrp);
+    }
+
+
+
 
 }
