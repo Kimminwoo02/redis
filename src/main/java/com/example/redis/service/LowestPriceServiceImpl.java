@@ -1,15 +1,13 @@
 package com.example.redis.service;
 
+import com.example.redis.vo.Keyword;
 import com.example.redis.vo.Product;
 import com.example.redis.vo.ProductGrp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +45,36 @@ public class LowestPriceServiceImpl implements LowestPriceService {
         int rank = redisTemplate.opsForZSet().rank(productGrpId, proGrpId).intValue();
         return rank;
 
+    }
+
+    @Override
+    public Keyword getLowestPriceProductByKeyword(String keyword) {
+        Keyword inputKeyword = new Keyword();
+        List<ProductGrp> tempProductGrp = new ArrayList<>();
+
+
+        //1. Keyword를 통해 ProductGroup 가져오기 (10개)
+        tempProductGrp = GetProductGrpUsingKeyword(keyword);
+
+        //2. 가져온 정보들을 Return할 Object에 넣기
+        //3. Object를 리턴
+        return inputKeyword;
+    }
+
+    public List<ProductGrp> GetProductGrpUsingKeyword(String keyword){
+        List<ProductGrp> returnInfo = new ArrayList<>();
+        ProductGrp tempProductGrp = new ProductGrp();
+
+        // input 받은 Keyword로 ProductGrpId를 조회
+        List<String> productGrpIdList = new ArrayList<>();
+        productGrpIdList = List.copyOf(redisTemplate.opsForZSet().range(keyword, 0, 9));
+
+        for(final String productGrpId : productGrpIdList){
+            // Loop 타면서  ProductGroup으로 Product: price 가져오기 (10개)
+            Set ProductAndPriceList = redisTemplate.opsForZSet().rangeWithScores(productGrpId, 0, 9);
+        }
+
+        return returnInfo;
     }
 
 

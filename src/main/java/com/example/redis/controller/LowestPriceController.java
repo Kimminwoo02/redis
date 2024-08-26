@@ -38,7 +38,7 @@ public class LowestPriceController {
 
     @GetMapping("/productPrice/lowest")
     public Keyword getLowestPriceProductByKeyword (String keyword){
-        
+        return lowestPriceService.getLowestPriceProductByKeyword(keyword);
     }
 
 }
