@@ -1,6 +1,7 @@
 package com.example.redis.controller;
 
 import com.example.redis.service.LowestPriceService;
+import com.example.redis.vo.Keyword;
 import com.example.redis.vo.Product;
 import com.example.redis.vo.ProductGrp;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,14 @@ public class LowestPriceController {
         return lowestPriceService.setNewProductGrp(newProductGrp);
     }
 
+    @PutMapping("/productGroupToKeyword")
+    public int setNewProductGrpToKeyword(String keyword, String proGrpId, double score){
+        return lowestPriceService.setNewProductGrpToKeyword(keyword,proGrpId,score);
+    }
 
-
+    @GetMapping("/productPrice/lowest")
+    public Keyword getLowestPriceProductByKeyword (String keyword){
+        
+    }
 
 }
