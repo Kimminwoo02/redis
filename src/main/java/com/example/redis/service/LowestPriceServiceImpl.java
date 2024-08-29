@@ -3,6 +3,7 @@ package com.example.redis.service;
 import com.example.redis.vo.Keyword;
 import com.example.redis.vo.Product;
 import com.example.redis.vo.ProductGrp;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -68,10 +69,29 @@ public class LowestPriceServiceImpl implements LowestPriceService {
         // input 받은 Keyword로 ProductGrpId를 조회
         List<String> productGrpIdList = new ArrayList<>();
         productGrpIdList = List.copyOf(redisTemplate.opsForZSet().range(keyword, 0, 9));
+        List<Product> tempProdList = new ArrayList<>();
 
         for(final String productGrpId : productGrpIdList){
             // Loop 타면서  ProductGroup으로 Product: price 가져오기 (10개)
             Set ProductAndPriceList = redisTemplate.opsForZSet().rangeWithScores(productGrpId, 0, 9);
+            ProductAndPriceList = redisTemplate.opsForZSet().rangeWithScores(productGrpId, 0, 9);
+            Product tempProduct = new Product();
+            // loop 타면서 Product obj에 bind
+            Iterator<String> prodPriceObj = productGrpIdList.iterator();
+
+            while(prodPriceObj.hasNext()){
+                ObjectMapper objectMapper = new ObjectMapper();
+                // { "value" : 00-11111 }, {"socre" : 10000 }
+                Map<String, String>  productPriceMap = objectMapper.convertValue(prodPriceObj.next(), Map.class);
+
+                // Product Obj bind
+                tempProduct.setProductId(productPriceMap.get("value"));
+                tempProduct.setPrice(Integer.parseInt(productPriceMap.get("score")));
+                tempProdList.add(tempProduct);
+            }
+            // 10개 Product price 입력
+            tempProductGrp.setProdGrpId(productGrpId);
+            tempProductGrp.setProductList(tempProdList);
         }
 
         return returnInfo;
