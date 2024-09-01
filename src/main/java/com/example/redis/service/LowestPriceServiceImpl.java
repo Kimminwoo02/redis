@@ -64,15 +64,18 @@ public class LowestPriceServiceImpl implements LowestPriceService {
 
     public List<ProductGrp> GetProductGrpUsingKeyword(String keyword){
         List<ProductGrp> returnInfo = new ArrayList<>();
-        ProductGrp tempProductGrp = new ProductGrp();
+
 
         // input 받은 Keyword로 ProductGrpId를 조회
         List<String> productGrpIdList = new ArrayList<>();
-        productGrpIdList = List.copyOf(redisTemplate.opsForZSet().range(keyword, 0, 9));
+        productGrpIdList = List.copyOf(redisTemplate.opsForZSet().reverseRange(keyword, 0, 9)); // 큰 스코어 -> 작은 스코어 순
         List<Product> tempProdList = new ArrayList<>();
 
         for(final String productGrpId : productGrpIdList){
             // Loop 타면서  ProductGroup으로 Product: price 가져오기 (10개)
+
+            ProductGrp tempProductGrp = new ProductGrp();
+
             Set ProductAndPriceList = redisTemplate.opsForZSet().rangeWithScores(productGrpId, 0, 9);
             ProductAndPriceList = redisTemplate.opsForZSet().rangeWithScores(productGrpId, 0, 9);
             Product tempProduct = new Product();
@@ -92,6 +95,7 @@ public class LowestPriceServiceImpl implements LowestPriceService {
             // 10개 Product price 입력
             tempProductGrp.setProdGrpId(productGrpId);
             tempProductGrp.setProductList(tempProdList);
+            returnInfo.add(tempProductGrp);
         }
 
         return returnInfo;
