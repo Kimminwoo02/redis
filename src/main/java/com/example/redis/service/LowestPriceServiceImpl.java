@@ -85,11 +85,11 @@ public class LowestPriceServiceImpl implements LowestPriceService {
             while(prodPriceObj.hasNext()){
                 ObjectMapper objectMapper = new ObjectMapper();
                 // { "value" : 00-11111 }, {"socre" : 10000 }
-                Map<String, String>  productPriceMap = objectMapper.convertValue(prodPriceObj.next(), Map.class);
+                Map<String, Object>  productPriceMap = objectMapper.convertValue(prodPriceObj.next(), Map.class);
 
                 // Product Obj bind
-                tempProduct.setProductId(productPriceMap.get("value"));
-                tempProduct.setPrice(Integer.parseInt(productPriceMap.get("score")));
+                tempProduct.setProductId(productPriceMap.get("value").toString()); // prod_id
+                tempProduct.setPrice(Integer.parseInt(productPriceMap.get("score").toString())); // es에서 검색된 score
                 tempProdList.add(tempProduct);
             }
             // 10개 Product price 입력
