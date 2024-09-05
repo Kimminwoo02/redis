@@ -62,6 +62,16 @@ public class LowestPriceServiceImpl implements LowestPriceService {
         return inputKeyword;
     }
 
+    @Override
+    public int getZsetValueWithStatus(String key) {
+        return 0;
+    }
+
+    @Override
+    public Set<String> getZsetValueWithSpecificException(String key) {
+        return Set.of();
+    }
+
     public List<ProductGrp> GetProductGrpUsingKeyword(String keyword){
         List<ProductGrp> returnInfo = new ArrayList<>();
 
