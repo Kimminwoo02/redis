@@ -26,12 +26,12 @@ public class LowestPriceController {
 
     }
 
-    @PutMapping("/product")
+    @GetMapping("/product")
     public int SetNewProduct(@RequestBody Product newProduct){
         return lowestPriceService.setNewProduct(newProduct);
     }
 
-    @PutMapping("/product2")
+    @GetMapping("/product2")
     public int GetZsetValueUsingExController(String key) throws Exception{
         try{
             return lowestPriceService.getZsetValueWithStatus(key);
@@ -40,7 +40,7 @@ public class LowestPriceController {
         }
 
     }
-    @PutMapping("/product3")
+    @GetMapping("/product3")
     public int GetZSetValueUsingExControllerWithSpecificException(String key) throws Exception{
         Set<String> mySet = new HashSet<>();
         try{
